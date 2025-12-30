@@ -1,0 +1,157 @@
+---
+
+## 📁 Struktur Expo Router (dasarnya)
+
+Expo Router pakai **file-based routing**.
+
+Struktur kamu sekarang kira-kira:
+
+```txt
+app/
+├─ _layout.tsx
+└─ index.tsx
+```
+
+* `index.tsx` → halaman `/` (home)
+* `_layout.tsx` → wrapper / navigator (`Stack`, `Tabs`, dll)
+
+---
+
+## ✅ Cara Membuat Page Baru
+
+### 1️⃣ Buat file baru di folder `app/`
+
+Contoh: **page About**
+
+```txt
+app/
+├─ _layout.tsx
+├─ index.tsx
+└─ about.tsx
+```
+
+### 2️⃣ Isi `about.tsx`
+
+```tsx
+import { View, Text } from "react-native";
+
+export default function About() {
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text>Ini halaman About</Text>
+    </View>
+  );
+}
+```
+
+🎉 Sekarang halaman bisa diakses di:
+
+```
+/about
+```
+
+---
+
+## ✅ Navigasi ke Page Baru
+
+### Pakai `Link`
+
+```tsx
+import { View, Text } from "react-native";
+import { Link } from "expo-router";
+
+export default function Index() {
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Link href="/about">
+        <Text>Pergi ke About</Text>
+      </Link>
+    </View>
+  );
+}
+```
+
+---
+
+### Pakai `router.push`
+
+```tsx
+import { View, Text, Pressable } from "react-native";
+import { router } from "expo-router";
+
+export default function Index() {
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Pressable onPress={() => router.push("/about")}>
+        <Text>Pergi ke About</Text>
+      </Pressable>
+    </View>
+  );
+}
+```
+
+---
+
+## 🧠 Tentang `_layout.tsx` kamu
+
+Kode kamu:
+
+```tsx
+import { Stack } from "expo-router";
+
+export default function RootLayout() {
+  return <Stack />;
+}
+```
+
+Ini artinya:
+
+* Semua page pakai **Stack Navigation**
+* Header otomatis aktif
+
+Kalau mau custom:
+
+```tsx
+<Stack screenOptions={{ headerShown: false }} />
+```
+
+---
+
+## 🧩 Contoh Page Dinamis
+
+```txt
+app/
+└─ user/
+   └─ [id].tsx
+```
+
+```tsx
+import { Text } from "react-native";
+import { useLocalSearchParams } from "expo-router";
+
+export default function User() {
+  const { id } = useLocalSearchParams();
+  return <Text>User ID: {id}</Text>;
+}
+```
+
+Akses:
+
+```
+/user/123
+```
+
+---
+
+## 🎯 Ringkasannya
+
+| Aksi               | Cara                       |
+| ------------------ | -------------------------- |
+| Page baru          | Buat file `.tsx` di `app/` |
+| Home               | `app/index.tsx`            |
+| Layout / Navigator | `app/_layout.tsx`          |
+| Navigasi           | `Link` / `router.push()`   |
+
+---
+
+Kalau tujuan kamu sebenarnya **ingin project SIMPLE tanpa router**, bilang aja — saya tunjukkan cara **buang Expo Router total** dan balik ke `App.js` biasa 💯
