@@ -1,6 +1,5 @@
-import React from 'react';
-import { Text as RNText, StyleSheet } from 'react-native';
 import { colors } from '@/src/utils/colors';
+import { Text as RNText } from 'react-native';
 
 export const Text = ({
   variant = 'body',

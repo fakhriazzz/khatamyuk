@@ -25,8 +25,7 @@ export default function ResultPage() {
   };
 
   const handleSave = () => {
-    // TODO: Implement save/screenshot functionality
-    console.log('Save/Screenshot functionality to be implemented');
+    router.push('/home');
   };
 
   return (

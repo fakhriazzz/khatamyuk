@@ -3,7 +3,13 @@ import { Text } from "@/src/components/atoms/Text";
 import { List } from "@/src/components/organisms";
 import { colors } from "@/src/utils/colors";
 import { router } from "expo-router";
-import { ScrollView, StyleSheet, View } from "react-native";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function OnBoardingPage() {
@@ -18,12 +24,22 @@ export default function OnBoardingPage() {
         contentContainerStyle={styles.content}
       >
         <View style={styles.header}>
-          <Text variant="heading" style={styles.title}>
-            Assalamu’alaikum, Fakhri
-          </Text>
-          <Text variant="body" color="secondary" style={styles.subtitle}>
-            Semoga hari ini penuh keberkahan
-          </Text>
+          <View>
+            <Text variant="subheading" style={styles.title}>
+              Assalamu’alaikum, Fakhri
+            </Text>
+            <Text variant="body" color="secondary" style={styles.subtitle}>
+              Semoga hari ini penuh keberkahan
+            </Text>
+          </View>
+          <TouchableOpacity>
+            <Image
+              source={{
+                uri: `https://ui-avatars.com/api/?background=random&name=Fakhri`,
+              }}
+              style={styles.avatar}
+            />
+          </TouchableOpacity>
         </View>
 
         <Button
@@ -33,18 +49,18 @@ export default function OnBoardingPage() {
           style={styles.button}
         />
 
-        <List variant="target" text="30" text2="19"/>
-        <List variant="target" text="30" text2="19"/>
-        <List variant="target" text="30" text2="19"/>
-        <List variant="target" text="30" text2="19"/>
-        <List variant="target" text="30" text2="19"/>
-        <List variant="target" text="30" text2="19"/>
-        <List variant="target" text="30" text2="19"/>
-        <List variant="target" text="30" text2="19"/>
-        <List variant="target" text="30" text2="19"/>
-        <List variant="target" text="30" text2="19"/>
-        <List variant="target" text="30" text2="19"/>
-        <List variant="target" text="30" text2="19"/>
+        <List variant="target" text="30" text2="19" />
+        <List variant="target" text="30" text2="19" />
+        <List variant="target" text="30" text2="19" />
+        <List variant="target" text="30" text2="19" />
+        <List variant="target" text="30" text2="19" />
+        <List variant="target" text="30" text2="19" />
+        <List variant="target" text="30" text2="19" />
+        <List variant="target" text="30" text2="19" />
+        <List variant="target" text="30" text2="19" />
+        <List variant="target" text="30" text2="19" />
+        <List variant="target" text="30" text2="19" />
+        <List variant="target" text="30" text2="19" />
       </ScrollView>
     </SafeAreaView>
   );
@@ -64,6 +80,9 @@ const styles = StyleSheet.create({
   },
   header: {
     marginBottom: 8,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   title: {
     marginBottom: 12,
@@ -71,14 +90,12 @@ const styles = StyleSheet.create({
   subtitle: {
     marginBottom: 8,
   },
-  description: {
-    textAlign: "center",
-    marginBottom: 24,
-  },
   button: {
     marginBottom: 16,
   },
-  infoNote: {
-    marginTop: 8,
+  avatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
   },
 });

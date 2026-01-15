@@ -2,9 +2,14 @@ import { Ilustrasi } from "@/src/assets";
 import { Gap, Input } from "@/src/components/atoms";
 import { Button } from "@/src/components/atoms/Button";
 import { Text } from "@/src/components/atoms/Text";
+import { auth, db } from "@/src/services/firebase";
 import { colors } from "@/src/utils/colors";
 import { router } from "expo-router";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { ref, set } from "firebase/database";
+import { useState } from "react";
 import {
+  Alert,
   Image,
   ScrollView,
   StyleSheet,
@@ -14,8 +19,40 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SignUpPage() {
-  const handleStart = () => {
-    router.push("/onboarding");
+  const [name, setname] = useState("");
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
+  const [loading, setloading] = useState(false);
+
+  const handleStart = async () => {
+    setloading(true);
+    try {
+      const res = await createUserWithEmailAndPassword(auth, email, password);
+
+      await set(ref(db, "users/" + res.user.uid), {
+        name,
+        email,
+        createdAt: Date.now(),
+      });
+
+      setloading(false);
+      router.push("/home");
+    } catch (error) {
+      console.log(error);
+      
+      let message = "Terjadi kesalahan, silakan coba lagi";
+
+      if (error.code === "auth/email-already-in-use") {
+        message = "Email sudah digunakan";
+      } else if (error.code === "auth/invalid-email") {
+        message = "Format email tidak valid";
+      } else if (error.code === "auth/weak-password") {
+        message = "Password minimal 6 karakter";
+      }
+
+      setloading(false);
+      Alert.alert("Gagal Daftar", message);
+    }
   };
 
   return (
@@ -34,20 +71,33 @@ export default function SignUpPage() {
           </Text>
         </View>
 
-        <Input placeholder="Nama" />
+        <Input placeholder="Nama" value={name} onChangeText={setname} />
         <Gap height={12} />
-        <Input placeholder="Email" />
+        <Input placeholder="Email" value={email} onChangeText={setemail} />
         <Gap height={12} />
-        <Input placeholder="Password" />
-
+        <Input
+          placeholder="Password"
+          value={password}
+          onChangeText={setpassword}
+          secureTextEntry
+        />
         <Gap height={12} />
-        <Button title="Daftar Sekarang" onPress={handleStart} style={styles.button} />
-        <View style={[styles.flexrow, {alignItems: 'center', justifyContent: 'center'}]}>
+        <Button
+          title={loading ? "Memuat..." : "Daftar Sekarang"}
+          onPress={handleStart}
+          style={styles.button}
+        />
+        <View
+          style={[
+            styles.flexrow,
+            { alignItems: "center", justifyContent: "center" },
+          ]}
+        >
           <Text variant="body" color="secondary" style={styles.description}>
             Sudah punya akun?
           </Text>
           <Gap width={4} />
-          <TouchableOpacity onPress={()=> router.push('signin')}>
+          <TouchableOpacity onPress={() => router.push("signin")}>
             <Text variant="body" color="primary" style={styles.description}>
               Masuk
             </Text>
@@ -95,7 +145,7 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     height: 200,
   },
-  flexrow:{
+  flexrow: {
     flexDirection: "row",
-  }
+  },
 });

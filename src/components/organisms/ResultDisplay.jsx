@@ -38,20 +38,20 @@ export const ResultDisplay = ({
       </Text>
 
       <View style={styles.buttonContainer}>
-        <Button
+        {/* <Button
           title="Hitung Ulang"
           onPress={onRecalculate}
           variant="outline"
           style={styles.button}
-        />
-        {/* {onSave && (
+        /> */}
+        {onSave && (
           <Button
-            title="Simpan / Screenshot"
+            title="Simpan"
             onPress={onSave}
-            variant="secondary"
+            variant="main"
             style={styles.button}
           />
-        )} */}
+        )}
       </View>
     </View>
   );

@@ -2,9 +2,13 @@ import { Ilustrasi } from "@/src/assets";
 import { Gap, Input } from "@/src/components/atoms";
 import { Button } from "@/src/components/atoms/Button";
 import { Text } from "@/src/components/atoms/Text";
+import { auth } from "@/src/services/firebase";
 import { colors } from "@/src/utils/colors";
 import { router } from "expo-router";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useState } from "react";
 import {
+  Alert,
   Image,
   ScrollView,
   StyleSheet,
@@ -14,8 +18,28 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SignInPage() {
-  const handleStart = () => {
-    router.push("/home");
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
+  const [loading, setloading] = useState(false);
+
+  const handleStart = async () => {
+    try {
+      setloading(true);
+      await signInWithEmailAndPassword(auth, email, password);
+      setloading(false);
+      router.push("/home");
+    } catch (error) {
+      let message = "Terjadi kesalahan saat mencoba masuk. Silakan coba lagi.";
+
+      if (error.code === "auth/invalid-credential") {
+        message = "Email atau kata sandi yang Anda masukkan salah.";
+      } else if (error.code === "auth/invalid-email") {
+        message = "Format email tidak valid";
+      }
+
+      setloading(false);
+      Alert.alert("Gagal Masuk", message);
+    }
   };
 
   return (
@@ -35,18 +59,28 @@ export default function SignInPage() {
           </Text>
         </View>
 
-        <Input placeholder="Email" />
+        <Input placeholder="Email" value={email} onChangeText={setemail} />
         <Gap height={12} />
-        <Input placeholder="Password" />
+        <Input
+          placeholder="Password"
+          value={password}
+          onChangeText={setpassword}
+          secureTextEntry
+        />
 
         <Gap height={12} />
         <Button title="Masuk" onPress={handleStart} style={styles.button} />
-        <View style={[styles.flexrow, {alignItems: 'center', justifyContent: 'center'}]}>
+        <View
+          style={[
+            styles.flexrow,
+            { alignItems: "center", justifyContent: "center" },
+          ]}
+        >
           <Text variant="body" color="secondary" style={styles.description}>
             Belum punya akun?
           </Text>
           <Gap width={4} />
-          <TouchableOpacity onPress={()=> router.push('signup')}>
+          <TouchableOpacity onPress={() => router.push("signup")}>
             <Text variant="body" color="primary" style={styles.description}>
               Daftar
             </Text>
@@ -94,7 +128,7 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     height: 200,
   },
-  flexrow:{
+  flexrow: {
     flexDirection: "row",
-  }
+  },
 });
