@@ -1,10 +1,8 @@
 ---
 
-## 📁 Struktur Expo Router (dasarnya)
+## 📁 Struktur Expo Router
 
 Expo Router pakai **file-based routing**.
-
-Struktur kamu sekarang kira-kira:
 
 ```txt
 app/
@@ -17,9 +15,9 @@ app/
 
 ---
 
-## ✅ Cara Membuat Page Baru
+## Cara Membuat Page Baru
 
-### 1️⃣ Buat file baru di folder `app/`
+### Buat file baru di folder `app/`
 
 Contoh: **page About**
 
@@ -30,7 +28,7 @@ app/
 └─ about.tsx
 ```
 
-### 2️⃣ Isi `about.tsx`
+### Isi `about.tsx`
 
 ```tsx
 import { View, Text } from "react-native";
@@ -44,7 +42,7 @@ export default function About() {
 }
 ```
 
-🎉 Sekarang halaman bisa diakses di:
+Sekarang halaman bisa diakses di:
 
 ```
 /about
@@ -52,7 +50,7 @@ export default function About() {
 
 ---
 
-## ✅ Navigasi ke Page Baru
+## Navigasi ke Page Baru
 
 ### Pakai `Link`
 
@@ -92,7 +90,7 @@ export default function Index() {
 
 ---
 
-## 🧠 Tentang `_layout.tsx` kamu
+## Tentang `_layout.tsx` kamu
 
 Kode kamu:
 
@@ -117,7 +115,7 @@ Kalau mau custom:
 
 ---
 
-## 🧩 Contoh Page Dinamis
+## Contoh Page Dinamis
 
 ```txt
 app/
@@ -143,7 +141,7 @@ Akses:
 
 ---
 
-## 🎯 Ringkasannya
+## Ringkasannya
 
 | Aksi               | Cara                       |
 | ------------------ | -------------------------- |
@@ -153,5 +151,3 @@ Akses:
 | Navigasi           | `Link` / `router.push()`   |
 
 ---
-
-Kalau tujuan kamu sebenarnya **ingin project SIMPLE tanpa router**, bilang aja — saya tunjukkan cara **buang Expo Router total** dan balik ke `App.js` biasa 💯

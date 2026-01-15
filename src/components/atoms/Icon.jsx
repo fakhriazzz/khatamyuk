@@ -10,3 +10,4 @@ export const Icon = ({
   return <Ionicons name={name} size={size} color={color} />;
 };
 
+

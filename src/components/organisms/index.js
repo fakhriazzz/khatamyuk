@@ -1,6 +1,7 @@
-export { Header } from './Header';
 export { CalculationForm } from './CalculationForm';
-export { ResultDisplay } from './ResultDisplay';
-export { MotivationCard } from './MotivationCard';
+export { Header } from './Header';
 export { IllustrationCard } from './IllustrationCard';
+export { List } from './List';
+export { MotivationCard } from './MotivationCard';
+export { ResultDisplay } from './ResultDisplay';
 

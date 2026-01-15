@@ -1,5 +1,6 @@
 export { Button } from './Button';
-export { Text } from './Text';
-export { Input } from './Input';
+export { Gap } from './Gap';
 export { Icon } from './Icon';
+export { Input } from './Input';
+export { Text } from './Text';
 
