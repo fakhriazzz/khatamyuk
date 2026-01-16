@@ -30,6 +30,7 @@ export default function ResultPage() {
     await push(ref(db, 'targets/' + auth.currentUser.uid), {
       pagesPerDay: result.pagesPerDay,
       totalDays: result.totalDays,
+      createdAt: Date.now(),
     })
     router.push('/home');
   };

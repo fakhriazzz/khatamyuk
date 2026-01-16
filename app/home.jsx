@@ -25,7 +25,6 @@ export default function OnBoardingPage() {
     if (snapshot.exists()) {
       setprofile(snapshot.val());
     } else {
-      
     }
   };
 
@@ -53,6 +52,19 @@ export default function OnBoardingPage() {
     router.push("/calculate");
   };
 
+  const formatDate = (timestamp) => {
+    if (!timestamp) return "";
+    const date = new Date(timestamp);
+    return date.toLocaleDateString("id-ID", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+  };
+
   if (!profile && !targets) {
     return (
       <SafeAreaView
@@ -75,7 +87,7 @@ export default function OnBoardingPage() {
         <View style={styles.header}>
           <View>
             <Text variant="subheading" style={styles.title}>
-              Assalamu’alaikum, {profile?.name}
+              Assalamu’alaikum, {profile?.name?.split(' ')[0]}
             </Text>
             <Text variant="body" color="secondary" style={styles.subtitle}>
               Semoga hari ini penuh keberkahan
@@ -84,7 +96,7 @@ export default function OnBoardingPage() {
           <TouchableOpacity>
             <Image
               source={{
-                uri: `https://ui-avatars.com/api/?background=27ae60&color=fff&name=${profile?.name}`,
+                uri: `https://ui-avatars.com/api/?background=F59E0B&color=fff&name=${profile?.name}`,
               }}
               style={styles.avatar}
             />
@@ -92,7 +104,7 @@ export default function OnBoardingPage() {
         </View>
 
         <Button
-          variant="outline"
+          variant="main"
           title="+ Tambah Target"
           onPress={handleStart}
           style={styles.button}
@@ -105,6 +117,7 @@ export default function OnBoardingPage() {
               variant="target"
               text={data.totalDays}
               text2={data.pagesPerDay}
+              text3={formatDate(data.createdAt)}
             />
           );
         })}
@@ -141,8 +154,8 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   avatar: {
-    width: 40,
-    height: 40,
+    width: 46,
+    height: 46,
     borderRadius: 20,
   },
 });
