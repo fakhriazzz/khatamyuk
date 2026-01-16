@@ -27,7 +27,7 @@ export default function SignInPage() {
       setloading(true);
       await signInWithEmailAndPassword(auth, email, password);
       setloading(false);
-      router.push("/home");
+      router.replace("/home");
     } catch (error) {
       let message = "Terjadi kesalahan saat mencoba masuk. Silakan coba lagi.";
 
@@ -69,7 +69,7 @@ export default function SignInPage() {
         />
 
         <Gap height={12} />
-        <Button title="Masuk" onPress={handleStart} style={styles.button} />
+        <Button title={loading ? "Memuat..." : "Masuk"} onPress={handleStart} style={styles.button} />
         <View
           style={[
             styles.flexrow,

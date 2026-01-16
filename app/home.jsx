@@ -1,8 +1,11 @@
 import { Button } from "@/src/components/atoms/Button";
 import { Text } from "@/src/components/atoms/Text";
 import { List } from "@/src/components/organisms";
+import { auth, db } from "@/src/services/firebase";
 import { colors } from "@/src/utils/colors";
 import { router } from "expo-router";
+import { get, onValue, ref } from "firebase/database";
+import { useEffect, useState } from "react";
 import {
   Image,
   ScrollView,
@@ -13,9 +16,55 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function OnBoardingPage() {
+  const [profile, setprofile] = useState(null);
+  const [targets, settargets] = useState(null);
+  const uid = auth.currentUser.uid;
+
+  const getProfile = async () => {
+    const snapshot = await get(ref(db, "users/" + uid));
+    if (snapshot.exists()) {
+      setprofile(snapshot.val());
+    } else {
+      
+    }
+  };
+
+  const getTargets = async () => {
+    const datatargets = ref(db, "targets/" + uid);
+
+    const unsubscribe = onValue(datatargets, (snapshot) => {
+      const data = snapshot.val() || {};
+      const list = Object.entries(data).map(([id, value]) => ({
+        id,
+        ...value,
+      }));
+      settargets(list.reverse());
+    });
+
+    return () => unsubscribe();
+  };
+
+  useEffect(() => {
+    getProfile();
+    getTargets();
+  }, [uid]);
+
   const handleStart = () => {
     router.push("/calculate");
   };
+
+  if (!profile && !targets) {
+    return (
+      <SafeAreaView
+        style={[
+          styles.container,
+          { justifyContent: "center", alignItems: "center" },
+        ]}
+      >
+        <Text>Memuat data...</Text>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
@@ -26,7 +75,7 @@ export default function OnBoardingPage() {
         <View style={styles.header}>
           <View>
             <Text variant="subheading" style={styles.title}>
-              Assalamu’alaikum, Fakhri
+              Assalamu’alaikum, {profile?.name}
             </Text>
             <Text variant="body" color="secondary" style={styles.subtitle}>
               Semoga hari ini penuh keberkahan
@@ -35,7 +84,7 @@ export default function OnBoardingPage() {
           <TouchableOpacity>
             <Image
               source={{
-                uri: `https://ui-avatars.com/api/?background=random&name=Fakhri`,
+                uri: `https://ui-avatars.com/api/?background=27ae60&color=fff&name=${profile?.name}`,
               }}
               style={styles.avatar}
             />
@@ -49,18 +98,16 @@ export default function OnBoardingPage() {
           style={styles.button}
         />
 
-        <List variant="target" text="30" text2="19" />
-        <List variant="target" text="30" text2="19" />
-        <List variant="target" text="30" text2="19" />
-        <List variant="target" text="30" text2="19" />
-        <List variant="target" text="30" text2="19" />
-        <List variant="target" text="30" text2="19" />
-        <List variant="target" text="30" text2="19" />
-        <List variant="target" text="30" text2="19" />
-        <List variant="target" text="30" text2="19" />
-        <List variant="target" text="30" text2="19" />
-        <List variant="target" text="30" text2="19" />
-        <List variant="target" text="30" text2="19" />
+        {targets?.map((data, index) => {
+          return (
+            <List
+              key={index}
+              variant="target"
+              text={data.totalDays}
+              text2={data.pagesPerDay}
+            />
+          );
+        })}
       </ScrollView>
     </SafeAreaView>
   );

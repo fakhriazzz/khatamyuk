@@ -2,8 +2,10 @@ import { StepIndicator } from '@/src/components/molecules/StepIndicator';
 import { Header } from '@/src/components/organisms/Header';
 import { MotivationCard } from '@/src/components/organisms/MotivationCard';
 import { ResultDisplay } from '@/src/components/organisms/ResultDisplay';
+import { auth, db } from '@/src/services/firebase';
 import { colors } from '@/src/utils/colors';
 import { router, useLocalSearchParams } from 'expo-router';
+import { push, ref } from 'firebase/database';
 import { ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -14,7 +16,7 @@ export default function ResultPage() {
     pagesPerDay: parseInt(params.pagesPerDay || '0', 10),
     totalDays: parseInt(params.totalDays || '0', 10),
     totalPages: parseInt(params.totalPages || '0', 10),
-  };
+  };  
 
   const handleBack = () => {
     router.back();
@@ -24,7 +26,11 @@ export default function ResultPage() {
     router.push('/calculate');
   };
 
-  const handleSave = () => {
+  const handleSave = async() => {
+    await push(ref(db, 'targets/' + auth.currentUser.uid), {
+      pagesPerDay: result.pagesPerDay,
+      totalDays: result.totalDays,
+    })
     router.push('/home');
   };
 

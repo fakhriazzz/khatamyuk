@@ -37,9 +37,7 @@ export default function SignUpPage() {
 
       setloading(false);
       router.push("/home");
-    } catch (error) {
-      console.log(error);
-      
+    } catch (error) {      
       let message = "Terjadi kesalahan, silakan coba lagi";
 
       if (error.code === "auth/email-already-in-use") {

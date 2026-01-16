@@ -6,12 +6,12 @@ import { getDatabase } from 'firebase/database'; // TODO: Add SDKs for Firebase 
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDsgnC0Y4AX1HCKQ5k4LLaJRt3vaKDcd3o",
-  authDomain: "khatamyuk-6e62c.firebaseapp.com",
-  projectId: "khatamyuk-6e62c",
-  storageBucket: "khatamyuk-6e62c.firebasestorage.app",
-  messagingSenderId: "732637934740",
-  appId: "1:732637934740:web:b34605a2b9c0d4a9f7f081"
+  apiKey: "AIzaSyC0iVXyoos8woHoTdRH2sa-t_W4StxeL6k",
+  authDomain: "khatamyuk-da0f0.firebaseapp.com",
+  projectId: "khatamyuk-da0f0",
+  storageBucket: "khatamyuk-da0f0.firebasestorage.app",
+  messagingSenderId: "326930014776",
+  appId: "1:326930014776:web:e8d755c4fbc43f415d7ccd"
 };
 
 // Initialize Firebase
