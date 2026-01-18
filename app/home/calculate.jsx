@@ -19,7 +19,7 @@ export default function CalculatePage() {
   const handleCalculate = () => {
     const result = calculatePagesPerDay(days);
     router.push({
-      pathname: '/result',
+      pathname: '/home/result',
       params: {
         pagesPerDay: result.pagesPerDay.toString(),
         totalDays: result.totalDays.toString(),

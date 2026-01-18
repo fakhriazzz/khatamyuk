@@ -2,11 +2,10 @@ import { Ilustrasi } from "@/src/assets";
 import { Gap, Input } from "@/src/components/atoms";
 import { Button } from "@/src/components/atoms/Button";
 import { Text } from "@/src/components/atoms/Text";
-import { auth, db } from "@/src/services/firebase";
+import { auth } from "@/src/services/firebase";
 import { colors } from "@/src/utils/colors";
 import { router } from "expo-router";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { ref, set } from "firebase/database";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import {
   Alert,
@@ -18,38 +17,28 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function SignUpPage() {
-  const [name, setname] = useState("");
-  const [email, setemail] = useState("");
-  const [password, setpassword] = useState("");
+export default function SignInPage() {
+  const [email, setemail] = useState("test@gmail.com");
+  const [password, setpassword] = useState("123456");
   const [loading, setloading] = useState(false);
 
   const handleStart = async () => {
-    setloading(true);
     try {
-      const res = await createUserWithEmailAndPassword(auth, email, password);
-
-      await set(ref(db, "users/" + res.user.uid), {
-        name,
-        email,
-        createdAt: Date.now(),
-      });
-
+      setloading(true);
+      await signInWithEmailAndPassword(auth, email, password);
       setloading(false);
-      router.push("/home");
-    } catch (error) {      
-      let message = "Terjadi kesalahan, silakan coba lagi";
+      router.replace("/home/home");
+    } catch (error) {
+      let message = "Terjadi kesalahan saat mencoba masuk. Silakan coba lagi.";
 
-      if (error.code === "auth/email-already-in-use") {
-        message = "Email sudah digunakan";
+      if (error.code === "auth/invalid-credential") {
+        message = "Email atau kata sandi yang Anda masukkan salah.";
       } else if (error.code === "auth/invalid-email") {
         message = "Format email tidak valid";
-      } else if (error.code === "auth/weak-password") {
-        message = "Password minimal 6 karakter";
       }
 
       setloading(false);
-      Alert.alert("Gagal Daftar", message);
+      Alert.alert("Gagal Masuk", message);
     }
   };
 
@@ -65,12 +54,11 @@ export default function SignUpPage() {
             KhatamYuk
           </Text>
           <Text variant="body" color="secondary" style={styles.description}>
-            Mulai perjalanan khatam Al-Qur’anmu hari ini
+            Silakan login agar lebih semangat menyelesaikan target khatam hari
+            ini
           </Text>
         </View>
 
-        <Input placeholder="Nama" value={name} onChangeText={setname} />
-        <Gap height={12} />
         <Input placeholder="Email" value={email} onChangeText={setemail} />
         <Gap height={12} />
         <Input
@@ -79,9 +67,10 @@ export default function SignUpPage() {
           onChangeText={setpassword}
           secureTextEntry
         />
+
         <Gap height={12} />
         <Button
-          title={loading ? "Memuat..." : "Daftar Sekarang"}
+          title={loading ? "Memuat..." : "Masuk"}
           onPress={handleStart}
           style={styles.button}
         />
@@ -92,12 +81,12 @@ export default function SignUpPage() {
           ]}
         >
           <Text variant="body" color="secondary" style={styles.description}>
-            Sudah punya akun?
+            Belum punya akun?
           </Text>
           <Gap width={4} />
-          <TouchableOpacity onPress={() => router.push("signin")}>
+          <TouchableOpacity onPress={() => router.push("/auth/signup")}>
             <Text variant="body" color="primary" style={styles.description}>
-              Masuk
+              Daftar
             </Text>
           </TouchableOpacity>
         </View>

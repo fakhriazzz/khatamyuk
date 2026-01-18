@@ -9,7 +9,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function Index() {
   useEffect(() => {
     setTimeout(() => {
-      router.push("/signin");
+      router.push("/auth/signin");
     }, 3000);
   }, []);
 
@@ -33,6 +33,6 @@ const styles = StyleSheet.create({
   image: {
     width: 320,
     resizeMode: "contain",
-    height: 300
+    height: 300,
   },
 });

@@ -49,7 +49,7 @@ export default function OnBoardingPage() {
   }, [uid]);
 
   const handleStart = () => {
-    router.push("/calculate");
+    router.push("/home/calculate");
   };
 
   const formatDate = (timestamp) => {
@@ -62,6 +62,13 @@ export default function OnBoardingPage() {
       hour: "2-digit",
       minute: "2-digit",
       second: "2-digit",
+    });
+  };
+
+  const goDetailtarget = (data) => {
+    router.push({
+      pathname: "/home/[targetid]",
+      params: { targetid: data.id },
     });
   };
 
@@ -87,7 +94,7 @@ export default function OnBoardingPage() {
         <View style={styles.header}>
           <View>
             <Text variant="subheading" style={styles.title}>
-              Assalamu’alaikum, {profile?.name?.split(' ')[0]}
+              Assalamu’alaikum, {profile?.name?.split(" ")[0]}
             </Text>
             <Text variant="body" color="secondary" style={styles.subtitle}>
               Semoga hari ini penuh keberkahan
@@ -118,6 +125,7 @@ export default function OnBoardingPage() {
               text={data.totalDays}
               text2={data.pagesPerDay}
               text3={formatDate(data.createdAt)}
+              onPress={() => goDetailtarget(data)}
             />
           );
         })}
