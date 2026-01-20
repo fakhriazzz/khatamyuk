@@ -1,3 +1,4 @@
+import { Trophy } from "@/src/assets";
 import { Button, Gap, Text } from "@/src/components/atoms";
 import { List } from "@/src/components/organisms";
 import { Header } from "@/src/components/organisms/Header";
@@ -6,13 +7,14 @@ import { colors } from "@/src/utils/colors";
 import { router, useLocalSearchParams } from "expo-router";
 import { get, onValue, ref } from "firebase/database";
 import { useEffect, useState } from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import { Image, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function DetailtargetPage() {
   const { targetid } = useLocalSearchParams();
   const [target, settarget] = useState(null);
   const [detailtarget, setdetailtarget] = useState(null);
+  const [sumpages, setsumpages] = useState(null);
 
   const formatData = (timestamp) => {
     if (!timestamp) return "";
@@ -45,6 +47,8 @@ export default function DetailtargetPage() {
         "detailtargets/" + auth.currentUser.uid + "/" + targetid,
       );
 
+      let total = 0;
+
       const unsubscribe = onValue(datadetailtargets, (snapshot) => {
         const data = snapshot.val() || {};
         const list = Object.entries(data).map(([id, value]) => ({
@@ -52,6 +56,11 @@ export default function DetailtargetPage() {
           ...value,
         }));
 
+        for (let index = 0; index < list.length; index++) {
+          total = total + parseInt(list[index].pages);
+        }
+
+        setsumpages(total);
         setdetailtarget(list.reverse());
       });
       return () => unsubscribe();
@@ -95,6 +104,13 @@ export default function DetailtargetPage() {
           Dibuat pada {formatData(target?.createdAt)}
         </Text>
         <Gap height={8} />
+        <View style={{ alignItems: "center" }}>
+          <Image source={Trophy} style={styles.image} />
+          <Text variant="subheading" color="primary">
+            Target tercapai {((sumpages / 604) * 100).toFixed(2)}%
+          </Text>
+        </View>
+        <Gap height={8} />
         <Button
           variant="main"
           title="+ Tambah Detail Target"
@@ -128,5 +144,9 @@ const styles = StyleSheet.create({
   content: {
     padding: 20,
     paddingBottom: 40,
+  },
+  image: {
+    width: 56,
+    height: 56,
   },
 });

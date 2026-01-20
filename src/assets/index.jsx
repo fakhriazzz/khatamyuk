@@ -1,4 +1,5 @@
-import Ilustrasi from './images/ilustrasi.png';
+import Ilustrasi from "./images/ilustrasi.png";
+import Trophy from "./images/trophy.png";
 
-export { Ilustrasi };
+export { Ilustrasi, Trophy };
 
