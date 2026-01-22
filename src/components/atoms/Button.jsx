@@ -1,10 +1,15 @@
-import { colors } from '@/src/utils/colors';
-import { ActivityIndicator, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { colors } from "@/src/utils/colors";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 
 export const Button = ({
   title,
   onPress,
-  variant = 'primary',
+  variant = "primary",
   disabled = false,
   loading = false,
   style,
@@ -12,17 +17,17 @@ export const Button = ({
 }) => {
   const getButtonStyle = () => {
     switch (variant) {
-      case 'primary':
+      case "primary":
         return {
           backgroundColor: colors.primary.main,
         };
-      case 'secondary':
+      case "secondary":
         return {
           backgroundColor: colors.background.lightGray,
         };
-      case 'outline':
+      case "outline":
         return {
-          backgroundColor: 'transparent',
+          backgroundColor: "transparent",
           borderWidth: 1,
           borderColor: colors.border.gray,
         };
@@ -35,15 +40,15 @@ export const Button = ({
 
   const getTextStyle = () => {
     switch (variant) {
-      case 'primary':
+      case "primary":
         return {
           color: colors.text.white,
         };
-      case 'secondary':
+      case "secondary":
         return {
           color: colors.text.primary,
         };
-      case 'outline':
+      case "outline":
         return {
           color: colors.text.primary,
         };
@@ -56,13 +61,22 @@ export const Button = ({
 
   return (
     <TouchableOpacity
-      style={[styles.button, getButtonStyle(), disabled && styles.disabled, style]}
+      style={[
+        styles.button,
+        getButtonStyle(),
+        disabled && styles.disabled,
+        style,
+      ]}
       onPress={onPress}
       disabled={disabled || loading}
       activeOpacity={0.7}
     >
       {loading ? (
-        <ActivityIndicator color={variant === 'primary' ? colors.text.white : colors.primary.main} />
+        <ActivityIndicator
+          color={
+            variant === "primary" ? colors.text.white : colors.primary.main
+          }
+        />
       ) : (
         <Text style={[styles.text, getTextStyle(), textStyle]}>{title}</Text>
       )}
@@ -75,16 +89,15 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 24,
     borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     minHeight: 52,
   },
   text: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   disabled: {
     opacity: 0.5,
   },
 });
-

@@ -110,14 +110,14 @@ export default function DetailtargetPage() {
             Target tercapai {((sumpages / 604) * 100).toFixed(2)}%
           </Text>
         </View>
-        <Gap height={8} />
+        <Gap height={12} />
         <Button
           variant="main"
           title="+ Tambah Detail Target"
           onPress={goAdddetailtarget}
           style={styles.button}
         />
-        <Gap height={8} />
+        <Gap height={12} />
         {detailtarget?.map((data, index) => {
           return (
             <List

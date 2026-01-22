@@ -1,3 +1,4 @@
+import { Gap } from "@/src/components/atoms";
 import { Button } from "@/src/components/atoms/Button";
 import { Text } from "@/src/components/atoms/Text";
 import { List } from "@/src/components/organisms";
@@ -92,14 +93,6 @@ export default function OnBoardingPage() {
         contentContainerStyle={styles.content}
       >
         <View style={styles.header}>
-          <View>
-            <Text variant="subheading" style={styles.title}>
-              Assalamu’alaikum, {profile?.name?.split(" ")[0]}
-            </Text>
-            <Text variant="body" color="secondary" style={styles.subtitle}>
-              Semoga hari ini penuh keberkahan
-            </Text>
-          </View>
           <TouchableOpacity>
             <Image
               source={{
@@ -108,8 +101,17 @@ export default function OnBoardingPage() {
               style={styles.avatar}
             />
           </TouchableOpacity>
+          <Gap width={12} />
+          <View>
+            <Text variant="subheading" style={styles.title}>
+              Assalamu’alaikum, {profile?.name?.split(" ")[0]}
+            </Text>
+            <Text variant="body" color="secondary">
+              Semoga hari ini penuh keberkahan
+            </Text>
+          </View>
         </View>
-
+        <Gap height={12} />
         <Button
           variant="main"
           title="+ Tambah Target"
@@ -149,14 +151,10 @@ const styles = StyleSheet.create({
   header: {
     marginBottom: 8,
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
   },
   title: {
-    marginBottom: 12,
-  },
-  subtitle: {
-    marginBottom: 8,
+    marginBottom: 4,
   },
   button: {
     marginBottom: 16,
@@ -164,6 +162,6 @@ const styles = StyleSheet.create({
   avatar: {
     width: 46,
     height: 46,
-    borderRadius: 20,
+    borderRadius: 12,
   },
 });

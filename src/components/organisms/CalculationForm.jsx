@@ -1,22 +1,16 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Text } from '@/src/components/atoms/Text';
-import { NumberInput } from '@/src/components/molecules/NumberInput';
-import { Button } from '@/src/components/atoms/Button';
-import { colors } from '@/src/utils/colors';
-import { QURAN_CONSTANTS } from '@/src/utils/constants';
+import { Button } from "@/src/components/atoms/Button";
+import { Text } from "@/src/components/atoms/Text";
+import { NumberInput } from "@/src/components/molecules/NumberInput";
+import { QURAN_CONSTANTS } from "@/src/utils/constants";
+import { StyleSheet, View } from "react-native";
 
-export const CalculationForm = ({
-  days,
-  onDaysChange,
-  onCalculate,
-}) => {
+export const CalculationForm = ({ days, onDaysChange, onCalculate }) => {
   return (
     <View style={styles.container}>
       <Text variant="body" style={styles.question}>
         Berapa hari target khatam?
       </Text>
-      
+
       <NumberInput
         value={days}
         onChange={onDaysChange}
@@ -28,7 +22,7 @@ export const CalculationForm = ({
 
       <View style={styles.infoContainer}>
         <Text variant="body" color="secondary">
-          Total halaman Al-Qur'an diasumsikan{' '}
+          Total halaman Al-Qur'an diasumsikan{" "}
           <Text variant="body" color="green" bold>
             {QURAN_CONSTANTS.STANDARD_PAGES} halaman.
           </Text>
@@ -60,5 +54,3 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
 });
-
-
